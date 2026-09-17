@@ -1,0 +1,31 @@
+# ===== 敏感信息(严禁上传) =====
+config.json
+campus_login.xml
+login.log
+test_result.json
+test_cycle.log
+task_backup.xml
+phone_*.png
+*.lock
+
+# 学校门户前端源码存档(他人版权)
+portal_js/
+
+# ===== Python =====
+__pycache__/
+*.pyc
+
+# ===== Android =====
+android-app/app/build/
+android-app/.gradle/
+android-app/build/
+android-app/local.properties
+android-app/.idea/
+*.apk
+
+# ===== 工具/编辑器 =====
+.zcode/
+.idea/
+.vscode/
+.kotlin/
+ui_dump.xml

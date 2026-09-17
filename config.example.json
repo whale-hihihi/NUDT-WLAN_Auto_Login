@@ -1,0 +1,14 @@
+{
+  "username": "你的校园网账号",
+  "password": "你的校园网密码",
+  "portal_base": "http://10.20.69.103",
+  "ac_id": "3",
+  "ssid": "NUDT-WLAN",
+  "check_urls": [
+    "http://connect.rom.miui.com/generate_204",
+    "http://wifi.vivo.com.cn/generate_204"
+  ],
+  "total_timeout_sec": 120,
+  "retry_interval_sec": 5,
+  "log_max_lines": 500
+}
