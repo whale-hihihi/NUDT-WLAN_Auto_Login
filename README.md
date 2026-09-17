@@ -29,22 +29,56 @@ srun_portal     → 提交登录（账号密码经 HMAC-MD5 / SHA-1 / XXTEA / �
 ### Windows
 
 1. 安装 Python 3.7+（仅标准库，无需 pip 安装任何依赖）
-2. 复制 `config.example.json` 为 `config.json`，填入校园网账号密码
+2. 复制 `config.example.json` 为 `config.json`，填入校园网账号密码（详见下方[配置说明](#%EF%B8%8F-配置说明账号密码)）
 3. 运行 `python check.py` 确认能正确检测状态（已联网 / 未认证 / 不在校园网）
 4. 双击 `install.bat` 注册开机自启计划任务，完成
-
-详细说明见 [README.md（Windows）](README.md) 与目录内脚本注释。
 
 ### Android
 
 1. 用 Android Studio 打开 `android-app/` 构建 APK（或到 [Releases](../../releases) 下载）
-2. 安装后填入账号密码 → 开启「自动登录」开关
+2. 安装后打开 App，在界面里填入账号密码 → 点「保存配置」→ 开启「自动登录」开关
 3. **关键**：按手机品牌设置后台白名单（国产 ROM 必须，否则后台任务被推迟）：
    - vivo / iQOO：设置 → 电池 → 后台耗电管理 → 允许后台高耗电；设置 → 应用 → 应用启动管理 → 自启动
    - OPPO / 一加：设置 → 应用 → 本应用 → 电池 → 允许完全后台行为
    - 荣耀：设置 → 应用 → 应用启动管理 → 手动管理全部允许
 
 详细说明见 [README-Android.md](README-Android.md)。
+
+## ⚙️ 配置说明（账号密码）
+
+**两端的账号密码就是你在浏览器登录校园网弹出页面时输入的那个账号和密码**（工号/学号 + 对应密码），没有额外的注册步骤。
+
+### Windows：`config.json`
+
+仓库里的 `config.example.json` 是模板，**复制一份改名为 `config.json`**（注意别去掉 `.json` 后缀），填好即可。各字段含义：
+
+| 字段 | 说明 |
+|---|---|
+| `username` | 校园网账号（学号/工号） |
+| `password` | 校园网密码 |
+| `portal_base` | 认证服务器地址，NUDT 为 `http://10.20.69.103` |
+| `ac_id` | 认证域编号，NUDT 为 `3` |
+| `ssid` | 校园 WiFi 名称，用于判断是否在校园网 |
+| `check_urls` | 联网探测地址（国内 204 探测点，一般不用改） |
+| `total_timeout_sec` / `retry_interval_sec` / `log_max_lines` | 重试与日志参数，保持默认即可 |
+
+> `config.json` 含明文密码，已在 `.gitignore` 中排除，请勿提交或外传。
+
+### Android：App 内直接填
+
+打开 App → 「账号」「密码」输入框填入 → 点「**保存配置**」。改密码时同样操作再保存一次即可。数据存在应用私有目录，卸载即清除。
+
+### 其他学校适配（非 NUDT）
+
+只要是深澜（SRun）门户就能用：连上校园 WiFi 后在弹出的浏览器登录页看地址栏，URL 形如
+`http://x.x.x.x/srun_portal_pc?ac_id=N&theme=...`——`x.x.x.x` 填到 `portal_base`，`N` 填到 `ac_id`，再把 `ssid`（Windows）改成你们学校的 WiFi 名。
+
+## ❓ 常见问题
+
+- **登录失败 / 无反应？** Windows 看 `login.log`、Android 看 App 内「日志」，最后几行会写明原因（密码错误、门户不可达、已在线等）
+- **检测不到校园网？** 确认 WiFi 已连上、`portal_base` 地址能在浏览器打开
+- **电脑换用户/重装？** 重新双击 `install.bat` 即可
+- **手机后台不触发？** 99% 是没设后台白名单，见上方 Android 步骤第 3 步
 
 ## ⚙️ 触发机制
 
